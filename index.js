@@ -11,14 +11,13 @@ const getWeb3 = async () => {
   });
 };
 
-document.addEventListener('DOMContentLoaded', ({ target }) => {
+document.addEventListener('DOMContentLoaded', () => {
   document
     .getElementById('connect_button')
     .addEventListener('click', async () => {
       const web3 = await getWeb3();
 
-      web3.eth.getBlockNumber().then(console.log);
-
-      target.setAttribute('hidden', 'hidden');
+      document.getElementById('block_height').innerText =
+        web3.eth.getBlockNumber();
     });
 });
