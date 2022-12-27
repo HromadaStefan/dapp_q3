@@ -18,6 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const web3 = await getWeb3();
 
       document.getElementById('block_height').innerText =
-        web3.eth.getBlockNumber();
+        await web3.eth.getBlockNumber();
     });
 });
