@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       ];
 
-      const contract = new web3.eth.contract(balanceOfABI, tokenContract);
+      const contract = new web3.eth.Contract(balanceOfABI, tokenContract);
 
       document.getElementById('block_height').innerText = await contract.methods
         .balanceOf(walletAddress[0])
