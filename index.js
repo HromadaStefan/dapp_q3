@@ -17,7 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
     .addEventListener('click', async () => {
       const web3 = await getWeb3();
 
-      document.getElementById('block_height').innerText =
-        await web3.eth.getBlockNumber();
+      const walletAddress = await web3.eth.requestAccounts();
+
+      const tokenContract = '0x16d1214f3F83a1F76F047729D75c5Fe46d334579';
+
+      const balanceOfABI = [
+        {
+          constant: true,
+          inputs: [
+            {
+              name: '_owner',
+              type: 'address',
+            },
+          ],
+          name: 'balanceOf',
+          outputs: [
+            {
+              name: 'balance',
+              type: 'uint256',
+            },
+          ],
+          payable: false,
+          stateMutability: 'view',
+          type: 'function',
+        },
+      ];
+
+      const contract = new web3.eth.contract(balanceOfABI, tokenContract);
+
+      document.getElementById('block_height').innerText = await contract.methods
+        .balanceOf(walletAddress[0])
+        .call();
     });
 });
