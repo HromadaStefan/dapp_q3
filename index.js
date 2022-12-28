@@ -20,34 +20,47 @@ document.addEventListener('DOMContentLoaded', () => {
       const walletAddress = await web3.eth.requestAccounts();
 
       const tokenContract = '0x16d1214f3F83a1F76F047729D75c5Fe46d334579';
+      const fromAddress = walletAddress[0];
+      const toAddress = '0x15433DA387451F9dE4565280C85506CB71aF9376';
 
-      const balanceOfABI = [
+      let contractABI = [
         {
-          constant: true,
+          constant: false,
+
           inputs: [
             {
-              name: '_owner',
+              name: '_to',
+
               type: 'address',
             },
-          ],
-          name: 'balanceOf',
-          outputs: [
+
             {
-              name: 'balance',
+              name: '_value',
+
               type: 'uint256',
             },
           ],
-          payable: false,
-          stateMutability: 'view',
-          type: 'function',
+
+          name: 'transfer',
+
+          outputs: [
+            {
+              name: '',
+
+              type: 'bool',
+            },
+          ],
         },
       ];
 
-      const contract = new web3.eth.Contract(balanceOfABI, tokenContract);
+      let contract = new Web3js.eth.Contract(contractABI, tokenAddress, {
+        from: fromAddress,
+      });
 
-      const result = await contract.methods.balanceOf(walletAddress[0]).call();
+      let amount = Web3js.utils.toHex(Web3js.utils.toWei('1'));
 
-      document.getElementById('block_height').innerText =
-        web3.utils.fromWei(result);
+      let data = contract.methods.transfer(toAddress, amount).encodeABI();
+
+      document.getElementById('block_height').innerText = data;
     });
 });
