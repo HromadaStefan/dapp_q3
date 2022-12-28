@@ -45,8 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const contract = new web3.eth.Contract(balanceOfABI, tokenContract);
 
-      document.getElementById('block_height').innerText = await contract.methods
-        .balanceOf(walletAddress[0])
-        .call();
+      const result = await contract.methods.balanceOf(walletAddress[0]).call();
+
+      document.getElementById('block_height').innerText =
+        web3.utils.fromWei(result);
     });
 });
