@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         from: fromAddress,
       });
 
-      let amount = web3.utils.toHex(Web3js.utils.toWei('10'));
+      let amount = web3.utils.toHex(web3.utils.toWei('10'));
 
       let data = contract.methods.transfer(toAddress, amount).encodeABI();
 
