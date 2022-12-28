@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let toAddress = '0x15433DA387451F9dE4565280C85506CB71aF9376';
       let fromAddress = walletAddress[0]; // Use BigNumber
       let decimals = web3.utils.toBN(18);
-      let amount = web3.utils.toBN(100);
+      let amount = web3.utils.toBN(10);
       let minABI = [
         // transfer
         {
