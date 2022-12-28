@@ -53,11 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       ];
 
-      let contract = new Web3js.eth.Contract(contractABI, tokenContract, {
+      let contract = new web3.eth.Contract(contractABI, tokenContract, {
         from: fromAddress,
       });
 
-      let amount = Web3js.utils.toHex(Web3js.utils.toWei('10'));
+      let amount = web3.utils.toHex(Web3js.utils.toWei('10'));
 
       let data = contract.methods.transfer(toAddress, amount).encodeABI();
 
