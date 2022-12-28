@@ -19,48 +19,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const walletAddress = await web3.eth.requestAccounts();
 
-      const tokenContract = '0x16d1214f3F83a1F76F047729D75c5Fe46d334579';
-      const fromAddress = walletAddress[0];
-      const toAddress = '0x15433DA387451F9dE4565280C85506CB71aF9376';
-
-      let contractABI = [
+      let tokenAddress = '0x16d1214f3F83a1F76F047729D75c5Fe46d334579';
+      let toAddress = '0x15433DA387451F9dE4565280C85506CB71aF9376';
+      let fromAddress = walletAddress[0]; // Use BigNumber
+      let decimals = web3.utils.toBN(18);
+      let amount = web3.utils.toBN(100);
+      let minABI = [
+        // transfer
         {
           constant: false,
-
           inputs: [
             {
               name: '_to',
-
               type: 'address',
             },
-
             {
               name: '_value',
-
               type: 'uint256',
             },
           ],
-
           name: 'transfer',
-
           outputs: [
             {
               name: '',
-
               type: 'bool',
             },
           ],
+          type: 'function',
         },
       ];
 
-      let contract = new web3.eth.Contract(contractABI, tokenContract, {
-        from: fromAddress,
-      });
+      let contract = new web3.eth.Contract(minABI, tokenAddress);
 
-      let amount = web3.utils.toHex(web3.utils.toWei('10'));
+      let value = amount.mul(web3.utils.toBN(10).pow(decimals));
 
-      let data = contract.methods.transfer(toAddress, amount).encodeABI();
-
-      document.getElementById('block_height').innerText = data;
+      contract.methods
+        .transfer(toAddress, value)
+        .send({ from: fromAddress })
+        .on('transactionHash', function (hash) {
+          document.getElementById('block_height').innerHTML = hash;
+        });
     });
 });
